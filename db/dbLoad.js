@@ -25,7 +25,7 @@ async function dbLoad() {
   const mapFakeId2RealId = {};
   for (const user of userModels) {
     userObj = new User({
-      first: user.first_name,
+      first_name: user.first_name,
       last_name: user.last_name,
       location: user.location,
       description: user.description,
@@ -39,7 +39,7 @@ async function dbLoad() {
         "Adding user:",
         user.first_name + " " + user.last_name,
         " with ID ",
-        user.objectID,
+        user.objectID
       );
     } catch (error) {
       console.error("Error create user", error);
@@ -59,18 +59,19 @@ async function dbLoad() {
     photo.objectID = photoObj._id;
     if (photo.comments) {
       photo.comments.forEach(function (comment) {
+        const realUserId = mapFakeId2RealId[comment.user._id];
         photoObj.comments = photoObj.comments.concat([
           {
             comment: comment.comment,
             date_time: comment.date_time,
-            user_id: comment.user.objectID,
+            user_id: realUserId,
           },
         ]);
         console.log(
           "Adding comment of length %d by user %s to photo %s",
           comment.comment.length,
-          comment.user.objectID,
-          photo.file_name,
+          realUserId,
+          photo.file_name
         );
       });
     }
@@ -80,7 +81,7 @@ async function dbLoad() {
         "Adding photo:",
         photo.file_name,
         " of user ID ",
-        photoObj.user_id,
+        photoObj.user_id
       );
     } catch (error) {
       console.error("Error create photo", error);

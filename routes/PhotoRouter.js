@@ -19,7 +19,7 @@ async function getUserMap(userIds) {
 
 const UNKNOWN_USER = { _id: null, first_name: "Unknown", last_name: "" };
 
-router.get("/:id", async (request, response) => {
+router.get("/photosOfUser/:id", async (request, response) => {
   const { id: userId } = request.params;
 
   if (!mongoose.Types.ObjectId.isValid(userId)) {
