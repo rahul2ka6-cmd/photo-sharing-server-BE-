@@ -1,22 +1,42 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
+const path = require("path");
 const dbConnect = require("./db/dbConnect");
 const UserRouter = require("./routes/UserRouter");
 const PhotoRouter = require("./routes/PhotoRouter");
-const CommentRouter = require("./routes/CommentRouter");
+const SchemaInfo = require("./db/schemaInfo");
+
+const app = express();
 
 dbConnect();
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/user", UserRouter);
-app.use("/api/photo", PhotoRouter);
 
-app.get("/", (request, response) => {
-  response.send({ message: "Hello from photo-sharing app API!" });
+// Serve ảnh tĩnh từ FE
+app.use(
+  "/images",
+  express.static(path.join(__dirname, "../photo-sharing-v1/src/images"))
+);
+
+// API theo đúng yêu cầu đề bài:
+// GET /test/info
+app.get("/test/info", async (req, res) => {
+  try {
+    const info = await SchemaInfo.findOne({});
+    if (!info) return res.status(404).json({ error: "SchemaInfo not found" });
+    res.json(info);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
+// GET /user/list và GET /user/:id
+app.use("/user", UserRouter);
+
+// GET /photosOfUser/:id
+app.use("/", PhotoRouter);
+
 app.listen(8081, () => {
-  console.log("server listening on port 8081");
+  console.log("Server chạy tại http://localhost:8081");
 });
