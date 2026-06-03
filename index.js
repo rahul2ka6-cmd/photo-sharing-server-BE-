@@ -13,11 +13,8 @@ dbConnect();
 app.use(cors());
 app.use(express.json());
 
-// Serve ảnh tĩnh từ FE
-app.use(
-  "/images",
-  express.static(path.join(__dirname, "../photo-sharing-v1/src/images"))
-);
+// Serve ảnh tĩnh
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 // API theo đúng yêu cầu đề bài:
 // GET /test/info
