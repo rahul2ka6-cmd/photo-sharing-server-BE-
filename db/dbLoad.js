@@ -64,13 +64,13 @@ async function dbLoad() {
           {
             comment: comment.comment,
             date_time: comment.date_time,
-            user_id: realUserId,
+            user_id: comment.user.objectID,
           },
         ]);
         console.log(
           "Adding comment of length %d by user %s to photo %s",
           comment.comment.length,
-          realUserId,
+          comment.user.objectID,
           photo.file_name
         );
       });
@@ -89,7 +89,7 @@ async function dbLoad() {
   }
 
   try {
-    schemaInfo = await SchemaInfo.create({
+    const schemaInfo = await SchemaInfo.create({
       version: versionString,
     });
     console.log("SchemaInfo object created with version ", schemaInfo.version);
