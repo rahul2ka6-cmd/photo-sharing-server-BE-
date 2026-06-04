@@ -34,6 +34,6 @@ app.use("/user", UserRouter);
 // GET /photosOfUser/:id
 app.use("/", PhotoRouter);
 
-app.listen(8081, () => {
-  console.log("Server chạy tại http://localhost:8081");
+app.listen(process.env.PORT || 8081, () => {
+  console.log(`Server chạy tại port ${process.env.PORT || 8081}`);
 });
