@@ -6,6 +6,7 @@ const dbConnect = require("./db/dbConnect");
 const UserRouter = require("./routes/UserRouter");
 const PhotoRouter = require("./routes/PhotoRouter");
 const AdminRouter = require("./routes/AdminRouter");
+const CommentRouter = require("./routes/CommentRouter");
 
 require("dotenv").config();
 
@@ -66,6 +67,7 @@ app.get("/test/info", (req, res) => {
 // Protected routes
 app.use("/user", requireAuth, UserRouter);
 app.use("/photosOfUser", requireAuth, PhotoRouter);
+app.use("/commentsOfPhoto", requireAuth, CommentRouter);
 
 // 404
 app.use((req, res) => {
