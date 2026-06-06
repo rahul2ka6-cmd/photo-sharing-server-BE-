@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const models = require("../modelData/photoApp");
+const models = require("../modelData/models");
 
 const User = require("./userModel");
 const Photo = require("./photoModel");

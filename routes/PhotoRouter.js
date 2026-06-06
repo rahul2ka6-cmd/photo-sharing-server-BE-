@@ -6,7 +6,7 @@ const User = require("../db/userModel");
 const router = express.Router();
 
 // GET /photosOfUser/:id
-router.get("/photosOfUser/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
