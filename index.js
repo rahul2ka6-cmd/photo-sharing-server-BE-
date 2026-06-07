@@ -7,6 +7,7 @@ const UserRouter = require("./routes/UserRouter");
 const PhotoRouter = require("./routes/PhotoRouter");
 const AdminRouter = require("./routes/AdminRouter");
 const CommentRouter = require("./routes/CommentRouter");
+const PhotoUploadRouter = require("./routes/PhotoUploadRouter");
 
 require("dotenv").config();
 
@@ -17,14 +18,19 @@ const JWT_SECRET = process.env.JWT_SECRET || "photo-app-jwt-secret-key";
 // CORS
 const corsOptions = {
   origin: function (origin, callback) {
-    // allow requests with no origin 
+    // allow requests with no origin
     // (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     return callback(null, origin);
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+  ],
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };
@@ -71,6 +77,7 @@ app.get("/test/info", (req, res) => {
 app.use("/user", requireAuth, UserRouter);
 app.use("/photosOfUser", requireAuth, PhotoRouter);
 app.use("/commentsOfPhoto", requireAuth, CommentRouter);
+app.use("/photos", requireAuth, PhotoUploadRouter);
 
 // 404
 app.use((req, res) => {
